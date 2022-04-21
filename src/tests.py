@@ -4,7 +4,7 @@ from scipy.stats import chisquare
 from scipy.special import erfc
 
 
-def monobit_test(sequence: np.ndarray, modulus: int) -> float:
+def monobit_test(sequence, modulus: int) -> float:
     n = len(sequence)
     sn = 0
     nr_digits = int(np.log2(modulus))
