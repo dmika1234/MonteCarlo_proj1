@@ -1,6 +1,5 @@
 import numpy as np
-from scipy.stats import norm
-from scipy.stats import chisquare
+from scipy.stats import norm, chisquare, kstest
 from scipy.special import erfc
 from other_functions import *
 
@@ -8,7 +7,7 @@ from other_functions import *
 def monobit_test(sequence, modulus: int) -> float:
     """
     :param sequence: sequence of BITS
-    :param modulus: maximal possible number ex. 2^32
+    :param modulus: maximal possible number - 1 (ex. 2^32)
     :return: p_value of test
     """
     n = len(sequence)
