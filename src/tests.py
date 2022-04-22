@@ -2,18 +2,20 @@ import numpy as np
 from scipy.stats import norm
 from scipy.stats import chisquare
 from scipy.special import erfc
+from other_functions import *
 
 
 def monobit_test(sequence, modulus: int) -> float:
+    """
+    :param sequence: sequence of BITS
+    :param modulus: maximal possible number ex. 2^32
+    :return: p_value of test
+    """
     n = len(sequence)
-    sn = 0
     nr_digits = int(np.log2(modulus))
-
-    for nr in sequence:
-        nr_binary_text = np.binary_repr(nr, nr_digits)
-        vec_min1_plus1 = 2 * np.array(list(map(int, list(nr_binary_text)))) - 1
-        sn = sn + np.sum(vec_min1_plus1)
-
+    bit_str = ''.join(sequence)
+    vec_min1_plus1 = 2 * np.array(list(map(int, list(bit_str)))) - 1
+    sn = np.sum(vec_min1_plus1)
     n_final = int(nr_digits * n)
     sn_final = sn / np.sqrt(n_final)
     normal01 = norm()
@@ -26,6 +28,7 @@ def runs_test(sequence): #zakladam ze na wejsciu dostajemy ciag zerojedynkowy
     sequence = str(sequence)
     n = len(sequence)
     t = 2/n #tau statistic nie wiem czy sqrt(n) czy n (raz jest tak a raz inaczej w skrypcie)
+    t = 2 / np.sqrt(n) # W pliku NIST był sqrt(n)
     pi = 0
     V = 1
     for i in range(n):
