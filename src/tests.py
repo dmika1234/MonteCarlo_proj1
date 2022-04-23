@@ -2,6 +2,7 @@ import numpy as np
 from scipy.stats import norm, chisquare, kstest
 from scipy.special import erfc
 from other_functions import *
+from generetors import *
 
 
 def monobit_test(sequence, modulus: int) -> float:
