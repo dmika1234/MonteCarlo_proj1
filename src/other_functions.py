@@ -36,3 +36,7 @@ def convert_bit_touni(sequence):
     int_lst = convert_bit_toint(sequence)
     res = convert_int_touni(int_lst, 2 ** nr_digits)
     return res
+
+
+def longint_tobit():
+    pass
