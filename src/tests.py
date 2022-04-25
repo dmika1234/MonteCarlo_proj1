@@ -1,8 +1,34 @@
 import numpy as np
 from scipy.stats import norm, chisquare, kstest
-from scipy.special import erfc
+from scipy.special import erfc, gammainc
 from other_functions import *
 from generetors import *
+
+
+def compute_nrs_in_bins(partition, points: np.ndarray):
+    bins = np.zeros(len(partition) - 1)
+
+    for i in range(len(bins)):
+        ffrom = partition[i]
+        tto = partition[i + 1]
+        bins[i] = ((points > ffrom) & (points <= tto)).sum()
+    # bins_probs[i]=tto-ffrom
+
+    return bins
+
+
+def second_level_test(sequence: np.ndarray, s: int = 10):
+    """
+    :param sequence: Sequence of p_values(must be numpy array)
+    :param s: Partition size
+    :return: p_value of the test
+    """
+    R = len(sequence)
+    partition = np.append((np.arange(s) / s), 1)
+    bins = compute_nrs_in_bins(partition, sequence)
+    # bins_exp = np.full(s, R / s)
+    p_value = chisquare(bins)[0]
+    return p_value
 
 
 def monobit_test(sequence, modulus: int) -> float:
@@ -24,6 +50,35 @@ def monobit_test(sequence, modulus: int) -> float:
     sn_final = sn / np.sqrt(n_final)
     normal01 = norm()
     p_value = 2 * (1 - normal01.cdf(np.abs(sn_final)))
+
+    return p_value
+
+
+def block_test(sequence, M: int) -> float:
+    """
+    :param sequence: sequence of BITS: ['10', '01', '11']
+    :param M: The length of each block
+    :return: p_value of test
+    """
+    sequence = list(map(str, sequence))
+    if type(sequence) == str:
+        bit_str = sequence
+    else:
+        bit_str = ''.join(sequence)
+    n = len(sequence)
+    N = int(np.floor(n / M))
+    split_string = [bit_str[i:i + N] for i in range(0, len(bit_str), N)]
+    are_not_equaly_splitted = (np.array(list(map(len, split_string))) != 3).sum() != 0
+
+    if are_not_equaly_splitted:
+        split_string = split_string[:-1]
+
+    def calc_pi(string):
+        return np.array(list(map(int, list(string)))).sum()
+
+    pis = np.array(list(map(calc_pi, split_string))) / M
+    chi_stat = 4 * M * ((pis - 1 / 2) ** 2).sum()
+    p_value = 1 - gammainc(N / 2, chi_stat / 2)
 
     return p_value
 
