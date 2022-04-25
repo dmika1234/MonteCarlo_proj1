@@ -27,11 +27,11 @@ def second_level_test(sequence: np.ndarray, s: int = 10):
     partition = np.append((np.arange(s) / s), 1)
     bins = compute_nrs_in_bins(partition, sequence)
     # bins_exp = np.full(s, R / s)
-    p_value = chisquare(bins)[0]
+    p_value = chisquare(bins)[1]
     return p_value
 
 
-def monobit_test(sequence, modulus: int) -> float:
+def monobit_test(sequence, modulus: int = 2) -> float:
     """
     :param sequence: sequence of BITS: ['10', '01', '11']
     :param modulus: maximal possible number - 1 (ex. 2^32)
