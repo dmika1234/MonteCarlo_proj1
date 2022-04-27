@@ -56,7 +56,7 @@ class RC4:
             y[r] = s[(s[i] + s[j]) % self.m]
         return y
 
-    def generate_numbers(self, key, n) -> np.ndarray:
+    def generate_numbers(self, n, key) -> np.ndarray:
         s = self.KSA(key)
-        res = self.PRGA(s, n)
+        res = np.array(self.PRGA(s, n), dtype='int32')
         return res
