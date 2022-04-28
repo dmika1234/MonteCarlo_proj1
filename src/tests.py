@@ -112,10 +112,5 @@ def runs_test(sequence): #zakladam ze na wejsciu dostajemy ciag zerojedynkowy
         return p_value
 
 
-def chi_square_test(f_obs, f_exp=None, ddof=0, axis=0): #zakladam ze na wejsciu dostajemy ciag zerojedynkowy
-    f_obs = str(f_obs)
-    working_lst = []
-    for i in range(len(f_obs)):
-        working_lst.append(int(f_obs[i]))
-    f_obs = working_lst
+def chi_square_test(f_obs, f_exp=None, ddof=0, axis=0): #wejscie to wektor z liczbami
     return chisquare(f_obs, f_exp, ddof, axis)[1] #p_value
