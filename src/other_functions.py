@@ -38,5 +38,12 @@ def convert_bit_touni(sequence):
     return res
 
 
-def longint_tobit():
-    pass
+def split_bit_str(bit_str: str, split_len):
+    split_string = [bit_str[i:i + split_len] for i in range(0, len(bit_str), split_len)]
+    return np.array(split_string)
+
+
+def list_tobit_string(sequence):
+    sequence = list(map(str, sequence))
+    bit_str = ''.join(sequence)
+    return bit_str
