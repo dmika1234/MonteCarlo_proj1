@@ -105,7 +105,7 @@ def runs_test(sequence): #zakladam ze na wejsciu dostajemy ciag zerojedynkowy
             if sequence[i] != sequence[i+1]:
                 V = V + 1
     pi = pi/n
-    p_value = erfc((V-2*n*pi*(1-pi))/(2*np.sqrt(2*n)*pi*(1-pi)))
+    p_value = erfc((abs(V-2*n*pi*(1-pi)))/(2*np.sqrt(2*n)*pi*(1-pi)))
     if abs(pi - 1/2) < t:
         return "the test is not run"
     else:
